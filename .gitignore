@@ -1,0 +1,27 @@
+node_modules
+
+# Output
+.output
+/.svelte-kit
+/build
+/dist
+
+# Log audit & unggahan uji lokal — isi server, bukan kode
+/logs
+/dev-uploads
+
+# Konfigurasi preview lokal (path mesin ini)
+/.claude/launch.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env (berisi kredensial — JANGAN di-commit)
+.env
+.env.*
+!.env.example
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

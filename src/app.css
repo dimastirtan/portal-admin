@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+/*
+ * Token warna ditulis hex (bukan oklch) supaya langsung terbaca Chrome/Edge 109.
+ * Warna bawaan Tailwind (oklch) tetap dapat cadangan rgb dari
+ * scripts/postcss-legacy-colors.js.
+ */
+@theme {
+	--font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+	--color-brand: #2f318b;
+	--color-brand-dark: #22236a;
+	--color-ink: #0f172a;
+	--color-muted: #64748b;
+	--color-line: #e2e8f0;
+	--color-surface: #f8fafc;
+	--color-ok: #15803d;
+	--color-ok-bg: #f0fdf4;
+	--color-warn: #b45309;
+	--color-warn-bg: #fffbeb;
+	--color-danger: #b91c1c;
+	--color-danger-dark: #991b1b;
+	--color-danger-bg: #fef2f2;
+}
+
+@layer components {
+	.btn {
+		@apply border-line text-ink hover:bg-surface inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border bg-white px-3 py-1.5 text-sm font-medium whitespace-nowrap;
+	}
+	.btn-primary {
+		@apply border-brand bg-brand hover:bg-brand-dark text-white;
+	}
+	.btn-danger {
+		@apply border-danger bg-danger hover:bg-danger-dark text-white;
+	}
+	.label {
+		@apply text-ink mb-1 block text-sm font-medium;
+	}
+	.input {
+		@apply border-line text-ink focus:border-brand block w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none;
+	}
+	.input-error {
+		@apply border-danger;
+	}
+	.hint {
+		@apply text-muted mt-1 text-xs;
+	}
+	.field-error {
+		@apply text-danger mt-1 text-xs font-medium;
+	}
+	.card {
+		@apply border-line rounded-lg border bg-white;
+	}
+	.link {
+		@apply text-brand underline-offset-2 hover:underline;
+	}
+}
