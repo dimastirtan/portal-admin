@@ -77,7 +77,7 @@ export async function processImage(file: File, preset: ImagePreset): Promise<Ima
 	}
 	if (preset.minWidth && width < preset.minWidth) {
 		warnings.push(
-			`Lebar gambar hanya ${width} px (disarankan minimal ${preset.minWidth} px) — di hero bisa tampak kurang tajam.`
+			`Lebar gambar hanya ${width} px (disarankan minimal ${preset.minWidth} px) — untuk hasil yang lebih optimal.`
 		);
 	}
 

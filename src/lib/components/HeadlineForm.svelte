@@ -63,7 +63,7 @@
 				aria-invalid={errors.date ? 'true' : undefined}
 			/>
 			{#if errors.date}<p class="field-error">{errors.date}</p>{/if}
-			<p class="hint">Headline terbaru tampil paling depan di hero.</p>
+			<p class="hint">Headline terbaru tampil paling depan.</p>
 		</div>
 		<div class="min-w-64 flex-1">
 			<label class="label" for="parent">Berita induk</label>
@@ -79,8 +79,7 @@
 			</select>
 			{#if errors.parent}<p class="field-error">{errors.parent}</p>{/if}
 			<p class="hint">
-				Biasanya cukup otomatis. Pilih induk lain hanya untuk mengelompokkan beberapa headline
-				(portal menampilkan "Part of: …").
+				Pilih induk lain hanya untuk mengelompokkan beberapa headline
 			</p>
 		</div>
 	</div>
@@ -91,8 +90,7 @@
 			<p class="border-warn/30 bg-warn-bg text-warn mb-2 rounded-md border px-3 py-2 text-sm">
 				Isi ini berformat <strong>HTML</strong> (data portal lama) dan tetap disimpan sebagai HTML.
 				{#if convertHref}
-					<a class="font-medium underline" href={convertHref}>Ubah jadi teks polos</a> agar mudah diedit
-					(format tebal/miring & gambar di dalam isi hilang).
+					<a class="font-medium underline" href={convertHref}>Ubah jadi teks</a>
 				{/if}
 			</p>
 		{/if}
@@ -109,8 +107,7 @@
 		{#if errors.text}<p class="field-error">{errors.text}</p>{/if}
 		{#if values.format === 'text'}
 			<p class="hint">
-				Teks polos: setiap baris menjadi satu paragraf di portal. Bila baris pertama sama dengan
-				judul, portal tidak menampilkannya dua kali. Tidak perlu (dan jangan) menempel HTML.
+				Bila baris pertama sama dengan judul, portal tidak menampilkannya dua kali.
 			</p>
 		{/if}
 	</div>
@@ -145,13 +142,11 @@
 		{#if errors.gambar}<p class="field-error">{errors.gambar}</p>{/if}
 		{#if hadFile && !errors.gambar}
 			<p class="field-error">
-				Pilih ulang gambarnya — berkas tidak ikut terkirim ulang setelah ada isian yang salah.
+				Pilih ulang gambar — berkas tidak ikut terkirim ulang setelah ada isian yang salah.
 			</p>
 		{/if}
 		<p class="hint">
-			JPG, PNG, atau WebP, maks. 15 MB. Gunakan gambar <strong>landscape, lebar ≥ 1920 px</strong>:
-			di hero beranda gambar dipotong, di halaman detail tampil utuh. Otomatis dikecilkan ke maks.
-			1920 px (WebP).
+			JPG, PNG, atau WebP, maks. 15 MB. Gunakan gambar <strong>landscape, jika lebar maks = 1920 px (WebP).
 		</p>
 	</div>
 

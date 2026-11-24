@@ -26,7 +26,7 @@ export const actions: Actions = {
 		const { values, errors } = readHeadlineForm(form, limits);
 		const { image, hadFile } = await readHeadlineImage(form, errors);
 		if (values.parent !== 'baru' && !(await parentExists(Number(values.parent)))) {
-			errors.parent = 'Berita induk tidak ditemukan — pilih lagi.';
+			errors.parent = 'Berita induk tidak ditemukan.';
 		}
 		if (Object.keys(errors).length) return fail(400, { values, errors, hadFile });
 

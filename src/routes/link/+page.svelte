@@ -75,8 +75,3 @@
 </div>
 
 <Pagination paging={data.paging} />
-
-<p class="text-muted mt-4 text-xs">
-	Urutan sama dengan di portal (abjad deskripsi). Batas kolom database: deskripsi {data.limits
-		.desc}, URL {data.limits.url} karakter.
-</p>

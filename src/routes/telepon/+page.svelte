@@ -77,6 +77,3 @@
 
 <Pagination paging={data.paging} />
 
-<p class="text-muted mt-4 text-xs">
-	Urutan sama dengan di portal: per kelompok (PT DI, Bandung, National), lalu abjad nama.
-</p>

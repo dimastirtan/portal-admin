@@ -91,8 +91,3 @@
 </div>
 
 <Pagination paging={data.paging} />
-
-<p class="text-muted mt-4 text-xs">
-	Urutan sama dengan di portal: tanggal terbaru dulu. Lima headline teratas yang tampil menjadi
-	slideshow hero di beranda.
-</p>
