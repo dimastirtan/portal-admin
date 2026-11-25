@@ -11,9 +11,9 @@ export function uploadDirStatus(): { path: string; ok: boolean; note: string } {
 	try {
 		if (!fs.statSync(dir).isDirectory()) return { path: dir, ok: false, note: 'bukan folder' };
 		fs.accessSync(dir, fs.constants.W_OK);
-		return { path: dir, ok: true, note: 'bisa ditulis' };
+		return { path: dir, ok: true, note: 'tersedia' };
 	} catch (err) {
 		const code = (err as NodeJS.ErrnoException).code;
-		return { path: dir, ok: false, note: code === 'ENOENT' ? 'belum ada' : 'tidak bisa ditulis' };
+		return { path: dir, ok: false, note: code === 'ENOENT' ? 'belum ada' : 'tidak tersedia' };
 	}
 }

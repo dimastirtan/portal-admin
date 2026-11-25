@@ -122,3 +122,42 @@ export async function deleteHeadlineImages(id: number): Promise<number> {
 	for (const img of files) await removeImage('headline', img.file);
 	return files.length;
 }
+
+// ── Foto pejabat: org/<nama> + org-thumb/<nama> ───────────────────────────────
+
+/**
+ * Nama unik untuk foto baru, mis. "123456-mwu4twg3a1.webp" — tidak pernah menimpa
+ * foto lama (portal lama punya "eka.jpg" dst. di static/).
+ */
+export const newOrgPhotoName = (nik: string, fallback: string) =>
+	`${/^\d{1,9}$/.test(nik) ? nik : fallback}-${Date.now().toString(36)}${randomBytes(1).toString('hex')}.webp`;
+
+/** true bila nama ini berkas unggahan dashboard (ada di UPLOAD_DIR/org atau org-thumb). */
+export const isUploadedOrgPhoto = (file: string) =>
+	Boolean(imageInfo('org-thumb', file) ?? imageInfo('org', file));
+
+/** URL pratinjau thumbnail (atau foto asli) unggahan; null bila bukan unggahan. */
+export function orgPhotoPreview(file: string): string | null {
+	const img = imageInfo('org-thumb', file) ?? imageInfo('org', file);
+	if (!img) return null;
+	return previewUrl(
+		img.full.includes(`${path.sep}org-thumb${path.sep}`) ? 'org-thumb' : 'org',
+		img
+	);
+}
+
+/** Simpan foto + thumbnail (nama sama, dua folder). */
+export async function saveOrgPhoto(file: string, photo: Buffer, thumb: Buffer): Promise<void> {
+	await writeImage('org', file, photo);
+	try {
+		await writeImage('org-thumb', file, thumb);
+	} catch (err) {
+		await removeImage('org', file);
+		throw err;
+	}
+}
+
+export async function removeOrgPhoto(file: string): Promise<void> {
+	await removeImage('org', file);
+	await removeImage('org-thumb', file);
+}

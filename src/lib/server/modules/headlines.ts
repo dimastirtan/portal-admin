@@ -293,7 +293,7 @@ export async function storeHeadlineImage(
 		return [
 			{
 				type: 'error',
-				text: 'Headline tersimpan, tetapi gambar gagal disimpan ke folder unggahan (UPLOAD_DIR). Coba unggah ulang.'
+				text: 'gambar gagal disimpan. silahkan coba lagi.'
 			}
 		];
 	}

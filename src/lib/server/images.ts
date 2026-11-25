@@ -33,6 +33,17 @@ export const PRESETS = {
 export type ProcessedImage = { data: Buffer; width: number; height: number; warnings: string[] };
 export type ImageResult = { ok: true; image: ProcessedImage } | { ok: false; error: string };
 
+/**
+ * Thumbnail foto pejabat: sisi PENDEK 168 px tanpa crop (sama dengan
+ * scripts/org-thumbs.py portal) — tetap tajam di lingkaran 56 px layar 3×.
+ */
+export async function orgThumbnail(data: Buffer): Promise<Buffer> {
+	return sharp(data)
+		.resize({ width: 168, height: 168, fit: 'outside', withoutEnlargement: true })
+		.webp({ quality: 80 })
+		.toBuffer();
+}
+
 /** Berkas yang dipilih di form; null bila input file dibiarkan kosong. */
 export function uploadedFile(form: FormData, name: string): File | null {
 	const value = form.get(name);

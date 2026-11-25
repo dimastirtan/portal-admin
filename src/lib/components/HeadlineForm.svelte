@@ -78,9 +78,7 @@
 				{/each}
 			</select>
 			{#if errors.parent}<p class="field-error">{errors.parent}</p>{/if}
-			<p class="hint">
-				Pilih induk lain hanya untuk mengelompokkan beberapa headline
-			</p>
+			<p class="hint">Pilih induk lain hanya untuk mengelompokkan beberapa headline</p>
 		</div>
 	</div>
 
@@ -146,7 +144,9 @@
 			</p>
 		{/if}
 		<p class="hint">
-			JPG, PNG, atau WebP, maks. 15 MB. Gunakan gambar <strong>landscape, jika lebar maks = 1920 px (WebP).
+			JPG, PNG, atau WebP, maks. 15 MB. Gunakan gambar <strong
+				>landscape, jika lebar maks = 1920 px (WebP).
+			</strong>
 		</p>
 	</div>
 

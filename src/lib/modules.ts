@@ -21,7 +21,7 @@ export const MODULES = [
 	{
 		href: '/organisasi',
 		label: 'Organisasi',
-		ready: false,
+		ready: true,
 		desc: 'Struktur organisasi, pejabat & fotonya.'
 	},
 	{ href: '/kalender', label: 'Kalender', ready: false, desc: 'Gambar kalender kerja.' },

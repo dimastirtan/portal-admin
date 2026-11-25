@@ -76,4 +76,3 @@
 </div>
 
 <Pagination paging={data.paging} />
-
