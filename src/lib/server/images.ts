@@ -21,12 +21,14 @@ export type ImagePreset = {
 	minWidth?: number;
 	/** Peringatan bila gambar portrait. */
 	landscape?: boolean;
+	/** Peringatan bila gambar landscape. */
+	portrait?: boolean;
 };
 
 export const PRESETS = {
 	headline: { maxSide: 1920, quality: 80, minWidth: 1920, landscape: true },
-	buletin: { maxSide: 1600, quality: 80 },
-	kalender: { maxSide: 2000, quality: 85 },
+	buletin: { maxSide: 1600, quality: 80, minWidth: 800, portrait: true },
+	kalender: { maxSide: 2000, quality: 85, minWidth: 1200 },
 	org: { maxSide: 1200, quality: 80 }
 } satisfies Record<string, ImagePreset>;
 
@@ -41,6 +43,14 @@ export async function orgThumbnail(data: Buffer): Promise<Buffer> {
 	return sharp(data)
 		.resize({ width: 168, height: 168, fit: 'outside', withoutEnlargement: true })
 		.webp({ quality: 80 })
+		.toBuffer();
+}
+
+/** Thumbnail pratinjau di daftar dashboard (sisi terpanjang `side` px). */
+export async function previewThumbnail(full: string, side: number): Promise<Buffer> {
+	return sharp(full, { limitInputPixels: MAX_PIXELS })
+		.resize({ width: side, height: side, fit: 'inside', withoutEnlargement: true })
+		.webp({ quality: 70 })
 		.toBuffer();
 }
 
@@ -84,6 +94,11 @@ export async function processImage(file: File, preset: ImagePreset): Promise<Ima
 	if (preset.landscape && height > width) {
 		warnings.push(
 			'Gambar berorientasi portrait — di hero beranda akan terpotong. Sebaiknya landscape.'
+		);
+	}
+	if (preset.portrait && width > height) {
+		warnings.push(
+			'Gambar berorientasi landscape — kartu buletin di portal berbentuk A4 tegak, jadi poster tampil kecil dengan bidang kosong. Sebaiknya portrait.'
 		);
 	}
 	if (preset.minWidth && width < preset.minWidth) {

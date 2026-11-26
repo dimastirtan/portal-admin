@@ -7,7 +7,7 @@ database `dittek` dan folder unggahan portal; portal menampilkan perubahan tanpa
 - SvelteKit 2 + Svelte 5, `adapter-node`, Tailwind v4 (+ cadangan warna Chrome/Edge 109),
   Drizzle ORM + mysql2.
 - **Tanpa JavaScript di browser** (`csr = false`): halaman dirender server, form dikirim biasa.
-- Modul: Link ✓ · Telepon ✓ · Headline ✓ · Struktur organisasi · Kalender kerja · Buletin.
+- Modul: Link ✓ · Telepon ✓ · Headline ✓ · Struktur organisasi ✓ · Kalender kerja ✓ · Buletin ✓.
 
 ## Menjalankan (pengembangan)
 

@@ -24,11 +24,16 @@ export const MODULES = [
 		ready: true,
 		desc: 'Struktur organisasi, pejabat & fotonya.'
 	},
-	{ href: '/kalender', label: 'Kalender', ready: false, desc: 'Gambar kalender kerja.' },
+	{
+		href: '/kalender',
+		label: 'Kalender',
+		ready: true,
+		desc: 'Gambar kalender kerja di /kalender-kerja.'
+	},
 	{
 		href: '/buletin',
 		label: 'Buletin',
-		ready: false,
+		ready: true,
 		desc: 'Poster buletin di Information center.'
 	}
 ] as const;

@@ -109,3 +109,25 @@ export type OrgUnitView = {
 export type OrgUnitValues = { title: string; type: number; nik: string };
 export type OrgDeptValues = { title: string; nik: string; orgId: number };
 export type OrgLimits = { unitTitle: number; deptTitle: number };
+
+/** Gambar di folder berurutan waktu (kalender, buletin). */
+export type TimedImageView = {
+	file: string;
+	/** Nama berkas tanpa ekstensi. */
+	title: string;
+	/** Waktu ubah (mtime) — diunggah atau terakhir dijadikan aktif. */
+	date: string;
+	size: string;
+	preview: string;
+	/** Thumbnail kecil untuk daftar. */
+	thumb: string;
+};
+
+export type CalendarView = TimedImageView & { active: boolean };
+
+export type BulletinView = TimedImageView & {
+	/** Urutan di folder (1 = terbaru). */
+	rank: number;
+	/** Termasuk 3 terbaru yang tampil di Information center portal. */
+	shown: boolean;
+};

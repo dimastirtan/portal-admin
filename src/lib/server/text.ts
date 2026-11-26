@@ -135,9 +135,12 @@ const jakarta = new Intl.DateTimeFormat('en-CA', {
 	hourCycle: 'h23'
 });
 
+const jakartaParts = (d: Date) =>
+	Object.fromEntries(jakarta.formatToParts(d).map((x) => [x.type, x.value]));
+
 /** 'YYYY-MM-DD HH:MM:SS' waktu Jakarta sekarang — untuk kolom DATETIME. */
 export function nowJakarta(): string {
-	const p = Object.fromEntries(jakarta.formatToParts(new Date()).map((x) => [x.type, x.value]));
+	const p = jakartaParts(new Date());
 	return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
 }
 
@@ -150,4 +153,10 @@ export function formatDate(value: string | null | undefined): string {
 	if (!m || m[1] === '0000') return '';
 	const bulan = 'Jan Feb Mar Apr Mei Jun Jul Agu Sep Okt Nov Des'.split(' ');
 	return `${Number(m[3])} ${bulan[Number(m[2]) - 1] ?? m[2]} ${m[1]}`;
+}
+
+/** Waktu berkas untuk tampilan: '25 Nov 2026 10.30' (Jakarta). */
+export function formatDateTime(d: Date): string {
+	const p = jakartaParts(d);
+	return `${formatDate(`${p.year}-${p.month}-${p.day}`)} ${p.hour}.${p.minute}`;
 }
