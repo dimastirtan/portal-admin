@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createBulletin, placementNote, readBulletinForm } from '$lib/server/modules/buletin';
+import { createBulletin, readBulletinForm } from '$lib/server/modules/buletin';
 import { finishChange } from '$lib/server/change';
 import { fileErrorMessage } from '$lib/server/uploads';
 import { formatDate, todayJakarta, type Errors } from '$lib/server/text';
@@ -22,11 +22,8 @@ export const actions: Actions = {
 			return fail(500, { values, errors: failed, hadFile });
 		}
 
-		const note = placementNote(file);
 		const extra: FlashMessage[] = image.warnings.map((text) => ({ type: 'warn', text }));
-		await finishChange(
-			event,
-			`Buletin “${title}” diunggah (tanggal ${formatDate(day)}).${note ? ` ${note}` : ''}`,
+		await 
 			{
 				action: 'create',
 				target: 'buletin',
@@ -34,7 +31,7 @@ export const actions: Actions = {
 				after: { file, day, width: image.width, height: image.height, bytes: image.data.length }
 			},
 			{ cache: false, extra }
-		);
+		;
 		redirect(303, '/buletin');
 	}
 };
