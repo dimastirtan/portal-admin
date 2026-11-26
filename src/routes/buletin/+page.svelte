@@ -76,8 +76,8 @@
 								<input type="hidden" name="berkas" value={b.file} />
 								<button
 									class="btn"
-									title="Jadikan paling depan di Information center — tanggalnya jadi hari ini"
-									>Paling depan</button
+									title="Jadikan paling depan di SMS Bulletin — ubah tanggal menjadi hari ini"
+									>Jadikan Terbaru</button
 								>
 							</form>
 						{/if}

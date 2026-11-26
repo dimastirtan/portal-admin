@@ -56,7 +56,7 @@
 			<label class="label" for="gambar">Gambar</label>
 			<input
 				id="gambar"
-				class="block w-full text-sm"
+				class="block w-full text-sm py-2 px-3 border-line bg-surface rounded border focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 {upload?.errors?.gambar ? 'border-danger ring-danger' : ''}"
 				type="file"
 				name="gambar"
 				accept="image/jpeg,image/png,image/webp"
