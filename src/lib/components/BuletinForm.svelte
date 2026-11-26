@@ -45,8 +45,7 @@
 			/>
 			{#if errors.judul}<p class="field-error">{errors.judul}</p>{/if}
 			<p class="hint">
-				Tampil di bawah poster di Information center. Judul sekaligus jadi nama berkas, jadi tanda
-				baca yang tidak boleh di nama berkas (/ \ : * ? " &lt; &gt; |) disesuaikan otomatis.
+				Tanda baca yang tidak boleh di nama berkas (/ \ : * ? " &lt; &gt; |).
 			</p>
 		</div>
 		<div>
@@ -63,10 +62,6 @@
 				aria-invalid={errors.tanggal ? 'true' : undefined}
 			/>
 			{#if errors.tanggal}<p class="field-error">{errors.tanggal}</p>{/if}
-			<p class="hint">
-				Tampil di bawah judul di portal. Urutan di Information center mengikuti tanggal ini — hanya
-				3 terbaru yang tampil.
-			</p>
 		</div>
 		<div>
 			<label class="label" for="gambar"
@@ -87,9 +82,7 @@
 				</p>
 			{/if}
 			<p class="hint">
-				JPG, PNG, atau WebP, maks. 15 MB. Poster tegak (rasio A4) — disimpan WebP, sisi terpanjang
-				maks. 1600 px.
-				{#if current}Mengganti gambar tidak mengubah tanggal & posisinya di portal.{/if}
+				JPG, PNG, atau WebP, maks. 15 MB.
 			</p>
 		</div>
 		<div class="flex gap-2">

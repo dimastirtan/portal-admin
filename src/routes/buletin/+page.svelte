@@ -19,11 +19,6 @@
 	<a class="btn btn-primary ml-auto" href="/buletin/baru">+ Unggah buletin</a>
 </div>
 
-<p class="text-muted mb-3 text-sm">
-	Information center di beranda portal menampilkan <strong>3 buletin dengan tanggal terbaru</strong
-	>. Judul = nama berkas; tanggal diatur di form tambah/ubah.
-</p>
-
 {#if form?.error}<div class="mb-3"><FormAlert message={form.error} /></div>{/if}
 
 <form method="GET" class="mb-3 flex flex-wrap gap-2" role="search">

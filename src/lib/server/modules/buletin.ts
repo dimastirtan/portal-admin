@@ -142,7 +142,7 @@ export async function readBulletinForm(
 			taken.has(title.toLowerCase()) ||
 			taken.has(title.replace(/_+/g, ' ').trim().toLowerCase())
 		) {
-			errors.judul = 'Judul ini sudah dipakai buletin lain — bedakan, mis. dengan nomor edisi.';
+			errors.judul = 'Judul ini sudah dipakai buletin lain';
 		}
 	}
 
@@ -213,13 +213,5 @@ export async function updateBulletin(
 export const bumpBulletin = (file: string) =>
 	touchImage(FOLDER, file, mtimeForDay(todayJakarta(), file));
 
-/** Kalimat posisi untuk pesan setelah simpan: tampil di portal atau tidak. */
-export function placementNote(file: string): string | null {
-	const found = getBulletin(file);
-	if (!found) return null;
-	return found.item.shown
-		? `Tampil di Information center (urutan ${found.item.rank} dari ${SHOWN}).`
-		: `Bertanggal ${found.item.date}, jadi tidak termasuk ${SHOWN} terbaru — tidak tampil di Information center.`;
-}
 
 export const deleteBulletin = (file: string) => removeImage(FOLDER, file);
