@@ -1,7 +1,6 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import {
 	getBulletin,
-	placementNote,
 	readBulletinForm,
 	updateBulletin
 } from '$lib/server/modules/buletin';
@@ -46,13 +45,8 @@ export const actions: Actions = {
 			image ? 'gambar' : '',
 			dayChanged ? 'tanggal' : ''
 		].filter(Boolean);
-		const note = dayChanged ? placementNote(file) : null;
 		const extra: FlashMessage[] = (image?.warnings ?? []).map((text) => ({ type: 'warn', text }));
-		await finishChange(
-			event,
-			changed.length
-				? `Buletin “${title}” disimpan (${changed.join(', ')} diganti).${note ? ` ${note}` : ''}`
-				: `Tidak ada perubahan pada buletin “${title}”.`,
+		await
 			{
 				action: 'update',
 				target: 'buletin',
@@ -63,7 +57,7 @@ export const actions: Actions = {
 					: { file, day }
 			},
 			{ cache: false, extra }
-		);
+		;
 		redirect(303, '/buletin');
 	}
 };
