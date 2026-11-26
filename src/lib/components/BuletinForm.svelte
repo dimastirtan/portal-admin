@@ -4,12 +4,18 @@
 
 	let {
 		judul,
+		tanggal,
+		today,
 		errors = {},
 		hadFile = false,
 		current = null,
 		submit
 	}: {
 		judul: string;
+		/** Tanggal terbit 'YYYY-MM-DD'. */
+		tanggal: string;
+		/** Hari ini (WIB) — batas atas pilihan tanggal. */
+		today: string;
 		errors?: Record<string, string>;
 		hadFile?: boolean;
 		/** Buletin yang sedang diubah; null = unggah baru. */
@@ -44,6 +50,25 @@
 			</p>
 		</div>
 		<div>
+			<label class="label" for="tanggal">Tanggal</label>
+			<input
+				id="tanggal"
+				class="input w-auto {errors.tanggal ? 'input-error' : ''}"
+				type="date"
+				name="tanggal"
+				value={tanggal}
+				min="2000-01-01"
+				max={today}
+				required
+				aria-invalid={errors.tanggal ? 'true' : undefined}
+			/>
+			{#if errors.tanggal}<p class="field-error">{errors.tanggal}</p>{/if}
+			<p class="hint">
+				Tampil di bawah judul di portal. Urutan di Information center mengikuti tanggal ini — hanya
+				3 terbaru yang tampil.
+			</p>
+		</div>
+		<div>
 			<label class="label" for="gambar"
 				>{current ? 'Ganti gambar (opsional)' : 'Gambar poster'}</label
 			>
@@ -64,7 +89,7 @@
 			<p class="hint">
 				JPG, PNG, atau WebP, maks. 15 MB. Poster tegak (rasio A4) — disimpan WebP, sisi terpanjang
 				maks. 1600 px.
-				{#if current}Posisi dan tanggalnya di portal tidak berubah.{/if}
+				{#if current}Mengganti gambar tidak mengubah tanggal & posisinya di portal.{/if}
 			</p>
 		</div>
 		<div class="flex gap-2">

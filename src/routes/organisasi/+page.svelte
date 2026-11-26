@@ -78,11 +78,3 @@
 		<p class="card text-muted p-6 text-center">Belum ada unit.</p>
 	{/each}
 </div>
-
-<p class="text-muted mt-4 text-xs">
-	Urutan sama dengan di portal: pimpinan dulu, lalu unit dan departemen menurut urutan dibuat.
-	{#if data.orphans}
-		Ada {data.orphans} departemen lama milik unit yang sudah tidak ada — tidak tampil di portal dan tidak
-		ditampilkan di sini.
-	{/if}
-</p>

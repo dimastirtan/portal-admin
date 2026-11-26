@@ -21,6 +21,8 @@
 
 <BuletinForm
 	judul={form?.values.judul ?? b.title}
+	tanggal={form?.values.tanggal ?? b.day}
+	today={data.today}
 	errors={form?.errors}
 	hadFile={form?.hadFile}
 	current={b}

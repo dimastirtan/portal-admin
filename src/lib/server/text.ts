@@ -160,3 +160,9 @@ export function formatDateTime(d: Date): string {
 	const p = jakartaParts(d);
 	return `${formatDate(`${p.year}-${p.month}-${p.day}`)} ${p.hour}.${p.minute}`;
 }
+
+/** 'YYYY-MM-DD' tanggal Jakarta dari sebuah waktu. */
+export function jakartaDate(d: Date): string {
+	const p = jakartaParts(d);
+	return `${p.year}-${p.month}-${p.day}`;
+}

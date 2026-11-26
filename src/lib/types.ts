@@ -126,6 +126,8 @@ export type TimedImageView = {
 export type CalendarView = TimedImageView & { active: boolean };
 
 export type BulletinView = TimedImageView & {
+	/** Tanggal terbit 'YYYY-MM-DD' (dari waktu ubah, zona Jakarta). */
+	day: string;
 	/** Urutan di folder (1 = terbaru). */
 	rank: number;
 	/** Termasuk 3 terbaru yang tampil di Information center portal. */

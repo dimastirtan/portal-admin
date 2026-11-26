@@ -20,8 +20,8 @@
 </div>
 
 <p class="text-muted mb-3 text-sm">
-	Information center di beranda portal menampilkan <strong>3 buletin terbaru</strong>. Judul = nama
-	berkas, tanggal = waktu diunggah.
+	Information center di beranda portal menampilkan <strong>3 buletin dengan tanggal terbaru</strong
+	>. Judul = nama berkas; tanggal diatur di form tambah/ubah.
 </p>
 
 {#if form?.error}<div class="mb-3"><FormAlert message={form.error} /></div>{/if}
@@ -81,7 +81,7 @@
 								<input type="hidden" name="berkas" value={b.file} />
 								<button
 									class="btn"
-									title="Jadikan paling depan di Information center (tanggal jadi hari ini)"
+									title="Jadikan paling depan di Information center — tanggalnya jadi hari ini"
 									>Paling depan</button
 								>
 							</form>

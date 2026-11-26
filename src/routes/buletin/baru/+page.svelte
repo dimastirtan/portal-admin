@@ -1,7 +1,7 @@
 <script lang="ts">
 	import BuletinForm from '$lib/components/BuletinForm.svelte';
 
-	let { form } = $props();
+	let { data, form } = $props();
 </script>
 
 <svelte:head><title>Unggah buletin — Admin Portal DITTEK</title></svelte:head>
@@ -11,6 +11,8 @@
 
 <BuletinForm
 	judul={form?.values.judul ?? ''}
+	tanggal={form?.values.tanggal ?? data.today}
+	today={data.today}
 	errors={form?.errors}
 	hadFile={form?.hadFile}
 	submit="Unggah"

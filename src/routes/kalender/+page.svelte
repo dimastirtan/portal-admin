@@ -68,9 +68,7 @@
 					Pilih ulang gambarnya — berkas tidak ikut terkirim ulang setelah ada isian yang salah.
 				</p>
 			{/if}
-			<p class="hint">
-				JPG, PNG, atau WebP, maks. 15 MB. Disimpan WebP (sisi terpanjang maks. 2000 px).
-			</p>
+			<p class="hint">JPG, PNG, atau WebP, maks. 15 MB.</p>
 		</div>
 		<div>
 			<label class="label" for="judul"
@@ -85,10 +83,7 @@
 				placeholder="mis. Kalender kerja 2027"
 			/>
 			{#if upload?.errors?.judul}<p class="field-error">{upload.errors.judul}</p>{/if}
-			<p class="hint">
-				Untuk riwayat di dashboard saja, tidak tampil di portal. Kosong = “Kalender kerja
-				&lt;tanggal hari ini&gt;”.
-			</p>
+			<p class="hint">Penamaan hanya untuk riwayat Dashboard</p>
 		</div>
 		<button class="btn btn-primary w-full">Unggah &amp; tampilkan di portal</button>
 		<p class="hint">Kalender yang baru diunggah langsung menggantikan yang sedang tampil.</p>
@@ -96,9 +91,6 @@
 </div>
 
 <h2 class="mt-8 mb-1 text-lg font-semibold">Riwayat</h2>
-<p class="text-muted mb-3 text-sm">
-	Versi sebelumnya tetap tersimpan. “Jadikan aktif” menampilkannya lagi di portal.
-</p>
 
 <div class="card overflow-x-auto">
 	<table class="w-full text-left text-sm">
@@ -147,7 +139,3 @@
 		</tbody>
 	</table>
 </div>
-<p class="text-muted mt-2 text-xs">
-	Urutan menurut waktu diunggah atau terakhir dijadikan aktif — portal selalu menampilkan yang
-	paling atas.
-</p>

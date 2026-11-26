@@ -1,8 +1,14 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { getBulletin, readBulletinForm, updateBulletin } from '$lib/server/modules/buletin';
+import {
+	getBulletin,
+	placementNote,
+	readBulletinForm,
+	updateBulletin
+} from '$lib/server/modules/buletin';
 import { finishChange } from '$lib/server/change';
 import { fileErrorMessage } from '$lib/server/uploads';
-import type { Errors } from '$lib/server/text';
+import { todayJakarta, type Errors } from '$lib/server/text';
+import type { FlashMessage } from '$lib/server/cookies';
 import type { Actions, PageServerLoad } from './$types';
 
 const NOT_FOUND = 'Buletin tidak ditemukan — mungkin sudah dihapus.';
@@ -13,7 +19,7 @@ const fileParam = (url: URL) => url.searchParams.get('berkas') ?? '';
 export const load: PageServerLoad = ({ url }) => {
 	const found = getBulletin(fileParam(url));
 	if (!found) error(404, NOT_FOUND);
-	return { item: found.item };
+	return { item: found.item, today: todayJakarta() };
 };
 
 export const actions: Actions = {
@@ -23,38 +29,40 @@ export const actions: Actions = {
 		if (!found) error(404, NOT_FOUND);
 
 		const form = await event.request.formData();
-		const { values, errors, title, image, hadFile } = await readBulletinForm(form, current);
+		const { values, errors, title, day, image, hadFile } = await readBulletinForm(form, current);
 		if (Object.keys(errors).length) return fail(400, { values, errors, hadFile });
 
+		const dayChanged = day !== found.item.day;
 		let file: string;
 		try {
-			file = await updateBulletin(current, title, image?.data ?? null);
+			file = await updateBulletin(current, title, image?.data ?? null, dayChanged ? day : null);
 		} catch (err) {
 			const failed: Errors = { _form: fileErrorMessage(err, 'menyimpan buletin') };
 			return fail(500, { values, errors: failed, hadFile });
 		}
 
-		const changed = [title !== found.item.title ? 'judul' : '', image ? 'gambar' : ''].filter(
-			Boolean
-		);
+		const changed = [
+			title !== found.item.title ? 'judul' : '',
+			image ? 'gambar' : '',
+			dayChanged ? 'tanggal' : ''
+		].filter(Boolean);
+		const note = dayChanged ? placementNote(file) : null;
+		const extra: FlashMessage[] = (image?.warnings ?? []).map((text) => ({ type: 'warn', text }));
 		await finishChange(
 			event,
 			changed.length
-				? `Buletin “${title}” disimpan (${changed.join(' & ')} diganti).`
+				? `Buletin “${title}” disimpan (${changed.join(', ')} diganti).${note ? ` ${note}` : ''}`
 				: `Tidak ada perubahan pada buletin “${title}”.`,
 			{
 				action: 'update',
 				target: 'buletin',
 				id: file,
-				before: { file: current },
+				before: { file: current, day: found.item.day },
 				after: image
-					? { file, width: image.width, height: image.height, bytes: image.data.length }
-					: { file }
+					? { file, day, width: image.width, height: image.height, bytes: image.data.length }
+					: { file, day }
 			},
-			{
-				cache: false,
-				extra: (image?.warnings ?? []).map((text) => ({ type: 'warn' as const, text }))
-			}
+			{ cache: false, extra }
 		);
 		redirect(303, '/buletin');
 	}
