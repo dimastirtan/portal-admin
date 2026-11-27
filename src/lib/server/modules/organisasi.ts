@@ -49,17 +49,23 @@ export async function orgLimits(): Promise<OrgLimits> {
 
 // ── Pegawai (tmemp — hanya C_NIK & I_EMP yang dibaca) ─────────────────────────
 
-let empCache: { at: number; list: EmployeeOption[]; byNik: Map<string, string> } | null = null;
+const byName = new Intl.Collator('id');
 
-export async function employees() {
-	if (empCache && Date.now() - empCache.at < 10 * 60_000) return empCache;
+/**
+ * Pegawai untuk pilihan & nama pejabat. Dibaca langsung dari tmemp setiap kali (tanpa
+ * cache), jadi pegawai yang baru ditambah/diubah di tmemp langsung muncul — cukup
+ * ringan: dua kolom, sekali per halaman. Hanya NIK 5–6 digit dengan nama terisi.
+ */
+export async function employees(): Promise<{
+	list: EmployeeOption[];
+	byNik: Map<string, string>;
+}> {
 	const rows = await db.select({ nik: emp.nik, name: emp.name }).from(emp);
 	const list = rows
 		.map((r) => ({ nik: (r.nik ?? '').trim(), name: fixText(r.name) }))
 		.filter((e) => /^\d{5,6}$/.test(e.nik) && e.name)
-		.sort((a, b) => a.name.localeCompare(b.name, 'id'));
-	empCache = { at: Date.now(), list, byNik: new Map(list.map((e) => [e.nik, e.name])) };
-	return empCache;
+		.sort((a, b) => byName.compare(a.name, b.name));
+	return { list, byNik: new Map(list.map((e) => [e.nik, e.name])) };
 }
 
 // ── Foto ─────────────────────────────────────────────────────────────────────
