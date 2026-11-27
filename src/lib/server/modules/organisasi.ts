@@ -6,7 +6,8 @@
  *    jabatan & tanpa pejabat disembunyikan; departemen yang unitnya sudah tidak ada
  *    (data lama) tidak ikut;
  *  - nama pejabat dari tmemp lewat NIK (tmorg.C_NIK_ORG varchar, tmorgdet.C_NIK_ORG_DET
- *    int → NIK berawalan 0 tidak bisa disimpan di departemen);
+ *    int → NIK berhuruf, mis. "DI2601", atau berawalan 0 tidak bisa disimpan di
+ *    departemen);
  *  - foto: UPLOAD_DIR/org-thumb/<nama> → UPLOAD_DIR/org/<nama> → foto lama di static;
  *    kolom kosong atau "blank.jpg" = tanpa foto.
  *
@@ -29,6 +30,7 @@ import {
 import { portalLink } from '$lib/server/portal-url';
 import { dbErrorMessage } from '$lib/server/db-error';
 import { fixText, formatDate, nowJakarta, readText, type Errors } from '$lib/server/text';
+import { fitsDeptNik, isNik } from '$lib/nik';
 import type {
 	EmployeeOption,
 	OrgDeptValues,
@@ -54,7 +56,8 @@ const byName = new Intl.Collator('id');
 /**
  * Pegawai untuk pilihan & nama pejabat. Dibaca langsung dari tmemp setiap kali (tanpa
  * cache), jadi pegawai yang baru ditambah/diubah di tmemp langsung muncul — cukup
- * ringan: dua kolom, sekali per halaman. Hanya NIK 5–6 digit dengan nama terisi.
+ * ringan: dua kolom, sekali per halaman. NIK boleh berhuruf (lihat isNik); baris
+ * tanpa nama dilewati.
  */
 export async function employees(): Promise<{
 	list: EmployeeOption[];
@@ -63,7 +66,7 @@ export async function employees(): Promise<{
 	const rows = await db.select({ nik: emp.nik, name: emp.name }).from(emp);
 	const list = rows
 		.map((r) => ({ nik: (r.nik ?? '').trim(), name: fixText(r.name) }))
-		.filter((e) => /^\d{5,6}$/.test(e.nik) && e.name)
+		.filter((e) => isNik(e.nik) && e.name)
 		.sort((a, b) => byName.compare(a.name, b.name));
 	return { list, byNik: new Map(list.map((e) => [e.nik, e.name])) };
 }
@@ -180,15 +183,15 @@ export async function readNik(
 ): Promise<string> {
 	const nik = String(form.get('nik') ?? '').trim();
 	if (!nik) return '';
-	if (!/^\d{5,6}$/.test(nik)) {
+	if (!isNik(nik)) {
 		errors.nik = 'Pilih pejabat dari daftar.';
 		return nik;
 	}
 	const { byNik } = await employees();
 	if (!byNik.has(nik) && nik !== opts.current) {
 		errors.nik = `NIK ${nik} tidak ada di data pegawai.`;
-	} else if (opts.numeric && nik.startsWith('0')) {
-		errors.nik = 'NIK berawalan 0 tidak bisa disimpan untuk departemen (kolom angka).';
+	} else if (opts.numeric && !fitsDeptNik(nik)) {
+		errors.nik = `NIK ${nik} ${nik.startsWith('0') ? 'berawalan 0' : 'berisi huruf'} — tidak bisa disimpan untuk departemen (kolom NIK departemen berupa angka). Pejabat ini hanya bisa dipasang di unit.`;
 	}
 	return nik;
 }

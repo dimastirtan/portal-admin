@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ORG_TYPES } from '$lib/categories';
+	import { fitsDeptNik } from '$lib/nik';
 	import type { EmployeeOption, OrgPhoto } from '$lib/types';
 	import CategoryRadios from './CategoryRadios.svelte';
 	import FormAlert from './FormAlert.svelte';
@@ -34,6 +35,10 @@
 	/** NIK tersimpan yang tidak ada di tmemp — tetap jadi pilihan supaya tidak hilang diam-diam. */
 	const unknownNik = $derived(
 		values.nik && !employees.some((e) => e.nik === values.nik) ? values.nik : ''
+	);
+	/** Pegawai yang NIK-nya tidak muat di kolom angka departemen. */
+	const deptBlocked = $derived(
+		kind === 'dept' ? employees.filter((e) => !fitsDeptNik(e.nik)).length : 0
 	);
 </script>
 
@@ -84,13 +89,21 @@
 				<option value={unknownNik} selected>NIK {unknownNik} — tidak ada di data pegawai</option>
 			{/if}
 			{#each employees as e (e.nik)}
-				<option value={e.nik} selected={values.nik === e.nik}>{e.name} — {e.nik}</option>
+				{#if kind === 'dept' && !fitsDeptNik(e.nik)}
+					<option value={e.nik} disabled>{e.name} — {e.nik} (hanya untuk unit)</option>
+				{:else}
+					<option value={e.nik} selected={values.nik === e.nik}>{e.name} — {e.nik}</option>
+				{/if}
 			{/each}
 		</select>
 		{#if errors.nik}<p class="field-error">{errors.nik}</p>{/if}
 		<p class="hint">
 			Nama diambil dari data pegawai ({employees.length} orang). Klik daftar lalu ketik awal nama untuk
 			melompat.
+			{#if kind === 'dept' && deptBlocked}
+				Pegawai ber-NIK huruf atau berawalan 0 ({deptBlocked} orang) tidak bisa dipilih di sini — kolom
+				NIK departemen di database berupa angka.
+			{/if}
 		</p>
 	</div>
 
